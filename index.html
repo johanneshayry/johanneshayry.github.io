@@ -1,12 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Is it summer holiday?</title>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Is it summer holiday yet?</title>
+    <style type="text/css">
+      body {
+        margin: 0;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      #outlet {
+        text-align: center;
+        font-size: 72px;
+      }
+    </style>
+  </head>
+  <body>
     <div id="outlet"></div>
-</body>
+    <script type="text/javascript">
+      const when = new Date(1654592400000);
+      const SECOND = 1000;
+      const MINUTE = 60 * SECOND;
+      const HOUR = 60 * MINUTE;
+      const DAY = 24 * HOUR;
+      const div = document.querySelector("#outlet");
+      const dayFormat = new Intl.NumberFormat("en", {
+        style: "unit",
+        unit: "day",
+        unitDisplay: "long",
+      });
+      const hourFormat = new Intl.NumberFormat("en", {
+        style: "unit",
+        unit: "hour",
+        unitDisplay: "long",
+      });
+
+      const minuteFormat = new Intl.NumberFormat("en", {
+        style: "unit",
+        unit: "minute",
+        unitDisplay: "long",
+      });
+
+      const secondFormat = new Intl.NumberFormat("en", {
+        style: "unit",
+        unit: "second",
+        unitDisplay: "long",
+      });
+
+      const update = function update() {
+        const diff = when.getTime() - new Date().getTime();
+        if (diff > 0) {
+          const days = Math.floor(diff / DAY);
+          const hours = Math.floor((diff - days * DAY) / HOUR);
+          const minutes = Math.floor(
+            (diff - days * DAY - hours * HOUR) / MINUTE
+          );
+          const seconds = Math.floor(
+            (diff - days * DAY - hours * HOUR - minutes * MINUTE) / SECOND
+          );
+          div.innerHTML = `Not yet😢<br /> Still ${dayFormat.format(
+            days
+          )} ${hourFormat.format(hours)} ${minuteFormat.format(
+            minutes
+          )} ${secondFormat.format(seconds)}`;
+        } else {
+          div.textContent = `Yes 😎`;
+        }
+      };
+      update();
+      setInterval(update, 1000);
+    </script>
+  </body>
 </html>
